@@ -53,8 +53,13 @@ export default class HospedesCtrl {
                 const hospedes = new Hospedes(codigoH, nome, cpf);
                 hospedes.atualizar().then(() => {
                     resposta.status(200).json({
+                        "status": true,
+                        "mensagem": "Hospede atualizado com sucesso!"
+                    });
+                }).catch((erro) => {
+                    resposta.status(500).json({
                         "status": false,
-                        "mensagem": "Erro ao atualizar o hospede:" + erro.message
+                        "mensagem": "Erro ao atualizar o hospede:" +erro.message
                     });
                 });
             }
