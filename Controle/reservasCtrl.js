@@ -8,11 +8,12 @@ export default class ReservasCtrl {
             const periodoIn = dados.periodoIn;
             const periodoFin = dados.periodoFin;
             const quartosReservados = dados.quartosReservados;
+            const hospedes = dados.hospedes;
             
 
-            if (periodoIn && periodoFin && quartosReservados) {
+            if (periodoIn && periodoFin && quartosReservados && hospedes) {
                 const reservas = new Reservas(0, periodoIn, periodoFin,
-                    quartosReservados);
+                    quartosReservados, hospedes);
                 
                 reservas.gravar().then(() => {
                     resposta.status(200).json({
@@ -51,10 +52,11 @@ export default class ReservasCtrl {
             const periodoIn = dados.periodoIn;
             const periodoFin = dados.periodoFin;
             const quartosReservados = dados.quartosReservados;
+            const hospedes = dados.hospedes;
             
-            if (codigoRes && periodoIn && periodoFin && quartosReservados) {
+            if (codigoRes && periodoIn && periodoFin && quartosReservados && hospedes) {
                 const reservas = new Reservas(codigoRes, periodoIn, periodoFin,
-                    quartosReservados);
+                    quartosReservados, hospedes);
                 
                 reservas.atualizar().then(() => {
                     resposta.status(200).json({
@@ -92,7 +94,7 @@ export default class ReservasCtrl {
             if (codigoRes) {
                 const reservas = new Reservas(codigoRes);
 
-                reservas.atualizar().then(() => {
+                reservas.excluir().then(() => {
                     resposta.status(200).json({
                         "status": true,
                         "mensagem": "Reserva excluído com sucesso!"

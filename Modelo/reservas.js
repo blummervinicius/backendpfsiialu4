@@ -5,12 +5,14 @@ export default class Reservas{
     #periodoIn;
     #periodoFin;
     #quartosReservados;
+    #hospedes;
 
-    constructor(codigoRes=0,codigoH=0,periodoIn='',periodoFin='',quartosReservados=''){
+    constructor(codigoRes=0,periodoIn='',periodoFin='',quartosReservados='',hospedes={}){
         this.#codigoRes=codigoRes;
         this.#periodoIn=periodoIn;
         this.#periodoFin=periodoFin;
         this.#quartosReservados=quartosReservados;
+        this.#hospedes=hospedes;
     }
     get codigoRes(){
         return this.#codigoRes;
@@ -44,12 +46,21 @@ export default class Reservas{
         this.#quartosReservados = novoQuartosReservados;
     }
 
+    get hospedes(){
+        return this.#hospedes;
+    }
+
+    set hospedes(novoHospedes){
+        this.#hospedes = novoHospedes;
+    }
+
     toJSON(){
         return {
             codigoRes:this.#codigoRes,
             periodoIn:this.#periodoIn,
             periodoFin:this.#periodoFin,
             quartosReservados:this.#quartosReservados,
+            hospedes:this.#hospedes,
         }
     }
 

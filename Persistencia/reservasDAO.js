@@ -1,12 +1,13 @@
 import Reservas from '../Modelo/reservas.js';
+import Hospedes from '../Modelo/hospedes.js';
 import conectar from './conexao.js';
 
 export default class ReservasDAO{
 
     async gravar(reservas){
         if(reservas instanceof Reservas){
-            const sql = `INSERT INTO reservas(res_periodoIn, res_periodoFin, res_quartosReservados) VALUES(?,?,?)`;
-            const parametros = [reservas.periodoIn, reservas.periodoFin, reservas.quartosReservados];
+            const sql = `INSERT INTO reservas(res_periodoIn, res_periodoFin, res_quartosReservados, hosp_codigoH) VALUES(?,?,?,?)`;
+            const parametros = [reservas.periodoIn, reservas.periodoFin, reservas.quartosReservados, reservas.hospedes.codigoH];
             const conexao = await conectar();
             const retorno = await conexao.execute(sql, parametros);
             reservas.codigoRes = retorno[0].insertId;
@@ -16,8 +17,8 @@ export default class ReservasDAO{
     
     async atualizar(reservas){
         if(reservas instanceof Reservas){
-            const sql = `UPDATE reservas SET res_periodoIn = ?, res_periodoFin = ?, res_quartosReservados = ?, WHERE res_codigoRes = ?`;
-            const parametros = [reservas.periodoIn, reservas.periodoFin, reservas.quartosReservados];
+            const sql = `UPDATE reservas SET res_periodoIn = ?, res_periodoFin = ?, res_quartosReservados = ?, hosp_codigoH = ? WHERE res_codigoRes = ?`;
+            const parametros = [reservas.periodoIn, reservas.periodoFin, reservas.quartosReservados, reservas.hospedes.codigoH, reservas.codigoRes];
             const conexao = await conectar();
             await conexao.execute(sql, parametros);
             global.poolConexoes.releaseConnection(conexao);
@@ -41,27 +42,31 @@ export default class ReservasDAO{
         const conexao = await conectar();
         let listaReservas = [];
         if (!isNaN(parseInt(termo))){
-            const sql = `SELECT r.res_codigoRes, r.res_periodoIn, r.res_periodoFin, r.res_quartosReservados 
+            const sql = `SELECT r.res_codigoRes, r.res_periodoIn, r.res_periodoFin, r.res_quartosReservados, h.hosp_codigoH, h.hosp_nome
             FROM reservas r 
+            INNER JOIN hospedes h ON r.hosp_codigoH = h.hosp_codigoH
             WHERE r.res_codigoRes = ?
             ORDER BY r.res_periodoIn`;
             const parametros=[termo];
             const [registros, campos] = await conexao.execute(sql,parametros);
             for (const registro of registros){
-                const reservas = new Reservas(registro.res_codigoRes, registro.res_periodoIn, registro.res_periodoFin, registro.res_quartosReservados);
+                const hospedes = new Hospedes(registro.hosp_codigoH, registro.hosp_nome);
+                const reservas = new Reservas(registro.res_codigoRes, registro.res_periodoIn, registro.res_periodoFin, registro.res_quartosReservados, hospedes);
                 listaReservas.push(reservas);
             }
 
         }
         else{
-            const sql = `SELECT r.res_codigoRes, r.res_periodoIn, r.res_periodoFin, r.res_quartosReservados 
+            const sql = `SELECT r.res_codigoRes, r.res_periodoIn, r.res_periodoFin, r.res_quartosReservados, h.hosp_codigoH, h.hosp_nome 
             FROM reservas r 
+            INNER JOIN hospedes h ON r.hosp_codigoH = h.hosp_codigoH
             WHERE r.res_periodoIn like?
             ORDER BY r.res_periodoIn`;
             const parametros=['%'+termo+'%'];
             const [registros, campos] = await conexao.execute(sql,parametros);
             for (const registro of registros){
-                const reservas = new Reservas(registro.res_codigoRes, registro.res_periodoIn, registro.res_periodoFin, registro.res_quartosReservados);
+                const hospedes = new Hospedes(registro.hosp_codigoH, registro.hosp_nome);
+                const reservas = new Reservas(registro.res_codigoRes, registro.res_periodoIn, registro.res_periodoFin, registro.res_quartosReservados, hospedes);
                 listaReservas.push(reservas);
             }
         }

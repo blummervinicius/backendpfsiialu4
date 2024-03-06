@@ -17,5 +17,6 @@ CREATE TABLE reservas(
     res_quartosReservados VARCHAR(100) NOT NULL, 
     hosp_codigoH INT NOT NULL,
     CONSTRAINT pk_reservas PRIMARY KEY(res_codigoRes),
+    CONSTRAINT fk_reservas_hospedes FOREIGN KEY (hosp_codigoH) REFERENCES hospedes(hosp_codigoH)
 );
 

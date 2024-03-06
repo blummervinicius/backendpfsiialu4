@@ -58,7 +58,7 @@ export default class HospedesCtrl {
             else {
                 resposta.status(400).json({
                     "status": false,
-                    "mensagem": "Por favor, informe o código e o nome do hospede!"
+                    "mensagem": "Por favor, informe o código e nome do hospede!"
                 });
             }
         }
@@ -81,7 +81,7 @@ export default class HospedesCtrl {
                 hospedes.excluir().then(() => {
                     resposta.status(200).json({
                         "status": true,
-                        "mensagem": "Hospede excluída com sucesso!"
+                        "mensagem": "Hospede excluído com sucesso!"
                     });
                 })
                     .catch((erro) => {
