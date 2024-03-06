@@ -31,7 +31,7 @@ export default class Reservas{
     }
 
     get periodoFin(){
-        return this.periodoFin;
+        return this.#periodoFin;
     }
 
     set periodoFin(novoPeriodoFin){
