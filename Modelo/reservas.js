@@ -60,7 +60,7 @@ export default class Reservas{
             periodoIn:this.#periodoIn,
             periodoFin:this.#periodoFin,
             quartosReservados:this.#quartosReservados,
-            hospedes:this.#hospedes,
+            hospedes:this.#hospedes
         }
     }
 

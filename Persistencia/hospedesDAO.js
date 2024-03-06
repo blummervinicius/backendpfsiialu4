@@ -6,7 +6,8 @@ export default class HospedesDAO{
         if (hospedes instanceof Hospedes){
             const sql = "INSERT INTO hospedes(hosp_nome, hosp_cpf) VALUES(?,?)";
             const parametros = [hospedes.nome,hospedes.cpf];
-            const conexao = await conexao.execute(sql,parametros);
+            const conexao = await conectar();
+            const retorno = await conexao.execute(sql,parametros);
             hospedes.codigoH = retorno[0].insertId;
             global.poolConexoes.releaseConnection(conexao);
         }

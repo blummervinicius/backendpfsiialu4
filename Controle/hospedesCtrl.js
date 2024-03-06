@@ -1,5 +1,7 @@
 import Hospedes from "../Modelo/hospedes.js";
 
+
+
 export default class HospedesCtrl {
 
     gravar(requisicao, resposta){
@@ -8,6 +10,7 @@ export default class HospedesCtrl {
             const dados = requisicao.body;
             const nome = dados.nome;
             const cpf = dados.cpf;
+
             if (nome && cpf){
                 const hospedes = new Hospedes(0, nome, cpf);
                 hospedes.gravar().then(() => {
