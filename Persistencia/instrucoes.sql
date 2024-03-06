@@ -2,19 +2,20 @@ CREATE DATABASE sistema;
 
 USE sistema;
 
-CREATE TABLE categoria(
-    cat_codigo INT NOT NULL AUTO_INCREMENT,
-    cat_descricao VARCHAR(100) NOT NULL,
-    CONSTRAINT pk_categoria PRIMARY KEY(cat_codigo)
+CREATE TABLE hospedes(
+    hosp_codigoH INT NOT NULL AUTO_INCREMENT,
+    hosp_nome VARCHAR(100) NOT NULL, 
+    hosp_cpf VARCHAR(20) NOT NULL,
+    CONSTRAINT pk_hospedes PRIMARY KEY(hosp_codigoH)
 );
 
-CREATE TABLE produto(
-    prod_codigo INT NOT NULL AUTO_INCREMENT,
-    prod_descricao VARCHAR(100) NOT NULL,
-    prod_precoCusto DECIMAL(10,2) NOT NULL DEFAULT 0,
-    prod_precoVenda DECIMAL(10,2) NOT NULL DEFAULT 0,
-    prod_dataValidade DATE,
-    prod_qtdEstoque DECIMAL(10,2) NOT NULL DEFAULT 0,
-    cat_codigo INT NOT NULL,
-    CONSTRAINT pk_produto PRIMARY KEY(prod_codigo),
+
+CREATE TABLE reservas(
+    res_codigoRes INT NOT NULL AUTO_INCREMENT,
+    res_periodoIn VARCHAR(100) NOT NULL,
+    res_periodoFin  VARCHAR(100) NOT NULL,
+    res_quartosReservados VARCHAR(100) NOT NULL, 
+    hosp_codigoH INT NOT NULL,
+    CONSTRAINT pk_reservas PRIMARY KEY(res_codigoRes),
 );
+
