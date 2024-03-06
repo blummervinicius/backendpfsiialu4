@@ -38,21 +38,21 @@ export default class HospedesDAO{
         let sql='';
         let parametros=[];
         if(!isNaN(parseInt(parametroConsulta))){
-            sql='SELECT * FROM hospedes WHERE hosp_codigoH = ? order by hosp_nome';
+            sql='SELECT hosp_codigoH, hosp_nome, hosp_cpf FROM hospedes WHERE hosp_codigoH = ? order by hosp_nome';
             parametros = [parametroConsulta];
         }
         else{
             if(!parametroConsulta){
                 parametroConsulta = '';
             }
-            sql = "SELECT * FROM hospedes WHERE hosp_nome like ?";
+            sql = "SELECT hosp_codigoH, hosp_nome, hosp_cpf FROM hospedes WHERE hosp_nome like ?";
             parametros = ['%'+parametroConsulta+'%'];
         }
         const conexao = await conectar();
         const [registros, campos] = await conexao.execute(sql,parametros);
         let listaHospedes = [];
         for (const registro of registros){
-            const hospedes = new Hospedes(registro.hosp_codigoH, registro.hosp_nome);
+            const hospedes = new Hospedes(registro.hosp_codigoH, registro.hosp_nome, registro.hosp_cpf);
             listaHospedes.push(hospedes);
 
         }

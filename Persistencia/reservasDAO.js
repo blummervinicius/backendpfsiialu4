@@ -42,7 +42,7 @@ export default class ReservasDAO{
         const conexao = await conectar();
         let listaReservas = [];
         if (!isNaN(parseInt(termo))){
-            const sql = `SELECT r.res_codigoRes, r.res_periodoIn, r.res_periodoFin, r.res_quartosReservados, h.hosp_codigoH, h.hosp_nome
+            const sql = `SELECT r.res_codigoRes, r.res_periodoIn, r.res_periodoFin, r.res_quartosReservados, h.hosp_codigoH, h.hosp_nome, h.hosp_cpf
             FROM reservas r 
             INNER JOIN hospedes h ON r.hosp_codigoH = h.hosp_codigoH
             WHERE r.res_codigoRes = ?
@@ -50,14 +50,14 @@ export default class ReservasDAO{
             const parametros=[termo];
             const [registros, campos] = await conexao.execute(sql,parametros);
             for (const registro of registros){
-                const hospedes = new Hospedes(registro.hosp_codigoH, registro.hosp_nome);
+                const hospedes = new Hospedes(registro.hosp_codigoH, registro.hosp_nome, registro.hosp_cpf);
                 const reservas = new Reservas(registro.res_codigoRes, registro.res_periodoIn, registro.res_periodoFin, registro.res_quartosReservados, hospedes);
                 listaReservas.push(reservas);
             }
 
         }
         else{
-            const sql = `SELECT r.res_codigoRes, r.res_periodoIn, r.res_periodoFin, r.res_quartosReservados, h.hosp_codigoH, h.hosp_nome 
+            const sql = `SELECT r.res_codigoRes, r.res_periodoIn, r.res_periodoFin, r.res_quartosReservados, h.hosp_codigoH, h.hosp_nome, h.hosp_cpf 
             FROM reservas r 
             INNER JOIN hospedes h ON r.hosp_codigoH = h.hosp_codigoH
             WHERE r.res_periodoIn like?
@@ -65,7 +65,7 @@ export default class ReservasDAO{
             const parametros=['%'+termo+'%'];
             const [registros, campos] = await conexao.execute(sql,parametros);
             for (const registro of registros){
-                const hospedes = new Hospedes(registro.hosp_codigoH, registro.hosp_nome);
+                const hospedes = new Hospedes(registro.hosp_codigoH, registro.hosp_nome, registro.hosp_cpf);
                 const reservas = new Reservas(registro.res_codigoRes, registro.res_periodoIn, registro.res_periodoFin, registro.res_quartosReservados, hospedes);
                 listaReservas.push(reservas);
             }
