@@ -16,7 +16,7 @@ export default class HospedesDAO{
     async atualizar(hospedes){
         if(hospedes instanceof Hospedes){
             const sql = "UPDATE hospedes SET hosp_nome = ?, hosp_cpf =? WHERE hosp_codigoH = ?";
-            const parametros = [hospedes.nome, hospedes.cpf];
+            const parametros = [hospedes.nome, hospedes.cpf, hospedes.codigoH];
             const conexao = await conectar();
             await conexao.execute(sql,parametros);
            global.poolConexoes.releaseConnection(conexao);
