@@ -97,7 +97,7 @@ export default class ReservasCtrl {
                 reservas.excluir().then(() => {
                     resposta.status(200).json({
                         "status": true,
-                        "mensagem": "Reserva excluído com sucesso!"
+                        "mensagem": "Reserva excluída com sucesso!"
                     });
                 })
                     .catch((erro) => {
