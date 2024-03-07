@@ -2,21 +2,21 @@ CREATE DATABASE sistema;
 
 USE sistema;
 
-CREATE TABLE hospedes(
-    hosp_codigoH INT NOT NULL AUTO_INCREMENT,
-    hosp_nome VARCHAR(100) NOT NULL, 
-    hosp_cpf VARCHAR(20) NOT NULL,
-    CONSTRAINT pk_hospedes PRIMARY KEY(hosp_codigoH)
+CREATE TABLE cliente(
+    cli_codigoC INT NOT NULL AUTO_INCREMENT,
+    cli_nome VARCHAR(100) NOT NULL,
+    cli_cpf VARCHAR(20) NOT NULL,
+    CONSTRAINT pk_clientes PRIMARY KEY(cli_codigoC)
+
 );
 
-
-CREATE TABLE reservas(
-    res_codigoRes INT NOT NULL AUTO_INCREMENT,
-    res_periodoIn VARCHAR(100) NOT NULL,
-    res_periodoFin  VARCHAR(100) NOT NULL,
-    res_quartosReservados VARCHAR(100) NOT NULL, 
-    hosp_codigoH INT NOT NULL,
-    CONSTRAINT pk_reservas PRIMARY KEY(res_codigoRes),
-    CONSTRAINT fk_reservas_hospedes FOREIGN KEY (hosp_codigoH) REFERENCES hospedes(hosp_codigoH)
+CREATE TABLE reservasC(
+    res_codigoR INT NOT NULL AUTO_INCREMENT,
+    res_periodoIn DATATIME NOT NULL,
+    res_periodoFin DATATIME NOT NULL,
+    res_carrosReservados VARCHAR(50) NOT NUL,
+    cli_codigoC INT NOT NULL,
+    CONSTRAINT pk_reservasC PRIMARY KEY(res_codigoR),
+    CONSTRAINT fk_reservasC_cliente FOREIGN KEY(cli_codigoC) REFERENCES cliente (cli_codigoC)
 );
 

@@ -1,8 +1,6 @@
-import Hospedes from "../Modelo/hospedes.js";
+import Cliente from '../Modelo/cliente.js';
 
-
-
-export default class HospedesCtrl {
+export default class ClienteCtrl{
 
     gravar(requisicao, resposta){
         resposta.type('application/json');
@@ -12,32 +10,32 @@ export default class HospedesCtrl {
             const cpf = dados.cpf;
 
             if (nome && cpf){
-                const hospedes = new Hospedes(0, nome, cpf);
-                hospedes.gravar().then(() => {
+                const cliente = new Cliente(0, nome, cpf);
+                cliente.gravar().then(() => {
                     resposta.status(200).json({
                         "status": true,
-                        "codigoGerado": hospedes.codigoH,
-                        "mensagem": "Hospede cadastrado com sucesso!"
+                        "codigoGerado": cliente.codigoC,
+                        "mensagem": "Cliente cadastrado com sucesso!"
                     });
                 })
                     .catch((erro) => {
                         resposta.status(500).json({
                             "status": false,
-                            "mensagem": "Erro ao registrar o Hospede:" +erro.message
+                            "mensagem": "Erro ao cadastrar cliente:" +erro.message
                         });
                     });
             }
             else{
                 resposta.status(400).json({
                     "status": false,
-                    "mensagem":"Por favor, informe o nome do hospede!"
+                    "mensagem":"Por favor, informe o nome do cliente!"
                 });
             }
         }
         else {
             resposta.status(400).json({
                 "status": false,
-                "mensagem": "Por favor, utilize o método POST para cadastrar o hospede!"
+                "mensagem": "Por favor, utilize o método POST para cadastrar o cliente!"
             });
         }
     }
@@ -46,34 +44,34 @@ export default class HospedesCtrl {
         resposta.type('application/json');
         if ((requisicao.method === 'PUT' || requisicao.method === 'PATCH') && requisicao.is('application/json')){
             const dados = requisicao.body;
-            const codigoH = dados.codigoH;
+            const codigoC = dados.codigoC;
             const nome = dados.nome;
             const cpf = dados.cpf;
-            if (codigoH && nome && cpf){
-                const hospedes = new Hospedes(codigoH, nome, cpf);
-                hospedes.atualizar().then(() => {
+            if (codigoC && nome && cpf){
+                const cliente = new Cliente(codigoC, nome, cpf);
+                cliente.atualizar().then(() => {
                     resposta.status(200).json({
                         "status": true,
-                        "mensagem": "Hospede atualizado com sucesso!"
+                        "mensagem": "Cliente atualizado com sucesso!"
                     });
                 }).catch((erro) => {
                     resposta.status(500).json({
                         "status": false,
-                        "mensagem": "Erro ao atualizar o hospede:" +erro.message
+                        "mensagem": "Erro ao atualizar o cliente:" +erro.message
                     });
                 });
             }
             else {
                 resposta.status(400).json({
                     "status": false,
-                    "mensagem": "Por favor, informe o código e nome do hospede!"
+                    "mensagem": "Por favor, informe o código e nome do cliente!"
                 });
             }
         }
         else {
             resposta.status(400).json({
                 "status": false,
-                "mensagem": "Por favor, utilize os métodos PUT ou PATCH para atualizar o hospede!"
+                "mensagem": "Por favor, utilize os métodos PUT ou PATCH para atualizar o cliente!"
             });
         }
     }
@@ -82,34 +80,34 @@ export default class HospedesCtrl {
         resposta.type('application/json');
         if (requisicao.method === 'DELETE' && requisicao.is('application/json')) {
             const dados = requisicao.body;
-            const codigoH = dados.codigoH;
-            if (codigoH) {
-                const hospedes = new Hospedes(codigoH);
+            const codigoC = dados.codigoC;
+            if (codigoC) {
+                const cliente = new Cliente(codigoC);
                 
-                hospedes.excluir().then(() => {
+                cliente.excluir().then(() => {
                     resposta.status(200).json({
                         "status": true,
-                        "mensagem": "Hospede excluído com sucesso!"
+                        "mensagem": "Cliente excluído com sucesso!"
                     });
                 })
                     .catch((erro) => {
                         resposta.status(500).json({
                             "status": false,
-                            "mensagem": "Erro ao excluir o hospede:" + erro.message
+                            "mensagem": "Erro ao excluir o cliente:" + erro.message
                         });
                     });
             }
             else {
                 resposta.status(400).json({
                     "status": false,
-                    "mensagem": "Por favor, informe o código do hospede!"
+                    "mensagem": "Por favor, informe o código do cliente!"
                 });
             }
         }
         else {
             resposta.status(400).json({
                 "status": false,
-                "mensagem": "Por favor, utilize o método DELETE para excluir uma hospede!"
+                "mensagem": "Por favor, utilize o método DELETE para excluir um cliente!"
             });
         }
     }
@@ -121,19 +119,19 @@ export default class HospedesCtrl {
             termo = "";
         }
         if (requisicao.method === "GET"){
-            const hospedes = new Hospedes();
-            hospedes.consultar(termo).then((listaHospedes)=>{
+            const cliente = new Cliente();
+            cliente.consultar(termo).then((listaCliente)=>{
                 resposta.json(
                     {
                         status:true,
-                        listaHospedes
+                        listaCliente
                     });
             })
             .catch((erro)=>{
                 resposta.json(
                     {
                         status:false,
-                        mensagem:"Não foi possível obter o hospede: " + erro.message
+                        mensagem:"Não foi possível obter o cliente: " + erro.message
                     }
                 );
             });
@@ -142,7 +140,7 @@ export default class HospedesCtrl {
         {
             resposta.status(400).json({
                 "status": false,
-                "mensagem": "Por favor, utilize o método GET para consultar um hospede!"
+                "mensagem": "Por favor, utilize o método GET para consultar um cliente!"
             });
         }
     }
