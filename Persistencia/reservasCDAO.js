@@ -69,6 +69,7 @@ export default class ReservasCDAO{
             for (const registro of registros){
                 const cliente = new Cliente(registro.cli_codigoC, registro.cli_nome, registro.cli_cpf);
                 const reservasC = new ReservasC(registro.res_codigoR, registro.res_periodoIn, registro.res_periodoFin, registro.res_carrosReservados, cliente);
+                
                 listaReservasC.push(reservasC);
             }
         }
