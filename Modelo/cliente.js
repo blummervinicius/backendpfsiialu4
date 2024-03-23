@@ -4,11 +4,13 @@ export default class Cliente{
     #codigoC;
     #nome;
     #cpf;
+    #reservas;
 
-    constructor(codigoC=0, nome='', cpf='') {
+    constructor(codigoC=0, nome='', cpf='', reservas={}) {
         this.#codigoC = codigoC;
         this.#nome = nome;
         this.#cpf = cpf;
+        this.#reservas = reservas;
     }
 
     
@@ -45,7 +47,8 @@ export default class Cliente{
         return {
             codigoC:this.#codigoC,
             nome:this.#nome,
-            cpf:this.#cpf
+            cpf:this.#cpf,
+            reservas:this.#reservas
         }
     }
 

@@ -1,4 +1,6 @@
 import Cliente from '../Modelo/cliente.js';
+import ReservasC from '../Modelo/reservasC.js';
+import Cliente_reserva from '../Modelo/cliente_reserva.js';
 
 export default class ClienteCtrl{
 
