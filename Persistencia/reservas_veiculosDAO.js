@@ -4,20 +4,25 @@ import Veiculo from "../Modelo/veiculo.js";
 import conectar from "./conexao.js";
 
 export default class Reservas_veiculosDAO {
+
   async gravar(reservas_veiculos) {
     if (reservas_veiculos instanceof Reservas_veiculos) {
-      const sql = `INSERT INTO reservas_veiculos(res_codgioR, vei_codigoV) VALUES (?,?)`;
+      const sql = `INSERT INTO reservas_veiculos(res_codigoR, vei_codigoV) VALUES (?,?)`;
       const conexao = await conectar();
-      const parametros = [reservas_veiculos.codigoR, reservas_veiculos.codigoV];
-      await conexao.execute(sql, parametros);
 
+      for(let veiculo of reservas_veiculos.codigoV){
+        const parametros = [reservas_veiculos.codigoR, veiculo];
+        const retorno = await conexao.execute(sql, parametros);
+
+      }
+      
       global.poolConexoes.releaseConnection(conexao);
     }
   }
 
   async atualizar(reservas_veiculos) {
     if (reservas_veiculos instanceof Reservas_veiculos) {
-      const sql = `UPDATE reservas_veiculos SET res_codigoR = ? WHERE res_codigoR = ? AND vei_codigoV = ? `;
+      const sql = `UPDATE reservas_veiculos SET vei_codigoV = ? WHERE vei_codigoV = ?`;
       const conexao = await conectar();
       const parametros = [reservas_veiculos.codigoR, reservas_veiculos.codigoV];
       await conexao.execute(sql, parametros);
@@ -30,8 +35,7 @@ export default class Reservas_veiculosDAO {
     let parametros = [];
 
     if (!isNaN(parseInt(consulta))) {
-      sql = `SELECT rc.res_codigoR, rc.res_periodoIn, rc.res_periodoFin, rc.res_quantidade, 
-                          rc.res_valor, rc.cli_codigoC,
+      sql = `SELECT rc.res_codigoR, rc.res_periodoIn, rc.res_periodoFin, rc.res_quantidade, rc.res_valor, rc.cli_codigoC,
                           v.vei_codigoV, v.vei_modelo, v.vei_ano, v.vei_placa
                    FROM reservas_veiculos rv
                    INNER JOIN reservasC rc ON rv.res_codigoR = rc.res_codigoR

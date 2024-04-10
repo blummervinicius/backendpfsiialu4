@@ -24,7 +24,7 @@ export default class Reservas_veiculos {
     this.#codigoV = novoCodigoV;
   }
 
-  toJSOn() {
+  toJSON() {
     return {
       codigoR: this.#codigoR,
       codigoV: this.#codigoV,

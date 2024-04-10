@@ -15,11 +15,13 @@ export default class VeiculoDAO {
 
   async atualizar(veiculo) {
     if (veiculo instanceof Veiculo) {
-      const sql = `UPDATE veiculo SET vei_modelo = ?, vei_ano = ?, placa = ?`;
-      const parametros = [veiculo.modelo, veiculo.ano, veiculo.placa];
+      const sql = `UPDATE veiculo SET vei_modelo = ?, vei_ano = ?, vei_placa = ? WHERE vei_codigoV = ?`;
+      const parametros = [veiculo.modelo, veiculo.ano, veiculo.placa, veiculo.codigoV];
       const conexao = await conectar();
       await conexao.execute(sql, parametros);
       global.poolConexoes.releaseConnection(conexao);
+    }else {
+      throw new Error('Objeto veiculo inválido.')
     }
   }
 
@@ -33,19 +35,34 @@ export default class VeiculoDAO {
     }
   }
 
-  async consultar(codigoR) {
-    //camada de modelo trocar por codigoR
-    try {
-      const conexao = await conectar();
-      const sql = `SELECT v.* FROM v
-            INNER JOIN reservas_veiculos rv ON v.vei_codigoV = rv.vei_codigoV
-            WHERE rv.res_codigoR = ?`;
-      const [resultados] = await conexao.execute(sql, [codigoR]);
-      return resultados;
-    } catch (erro) {
-      throw new Error(
-        "Erro ao consultar veículos por reserva: " + erro.message
-      );
+  async consultar(parametroConsulta) {
+    let sql = "";
+    let parametros = [];
+    if (!isNaN(parseInt(parametroConsulta))) {
+      sql =
+        "SELECT vei_codigoV, vei_modelo, vei_ano, vei_placa FROM veiculo WHERE vei_codigoV = ? ORDER BY vei_modelo";
+      parametros = [parametroConsulta];
+    } else {
+      if (!parametroConsulta) {
+        parametroConsulta = "";
+      }
+      sql = `SELECT vei_codigoV, vei_modelo, vei_ano, vei_placa FROM veiculo WHERE vei_modelo LIKE ?`;
+      parametros = ["%" + parametroConsulta + "%"];
     }
-  }
+    const conexao = await conectar();
+    const [registros, campos] = await conexao.execute(sql, parametros);
+    let listaVeiculos = [];
+
+    for (const registro of registros) {
+      const veiculo = new Veiculo(
+        registro.vei_codigoV,
+        registro.vei_modelo,
+        registro.vei_ano,
+        registro.vei_placa
+      );
+      listaVeiculos.push(veiculo);
+    }
+    return listaVeiculos;
+}
+
 }

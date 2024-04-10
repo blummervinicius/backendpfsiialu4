@@ -68,9 +68,9 @@ export default class Veiculo {
     await veiDAO.atualizar(this);
   }
 
-  async consultar(termo) {
+  async consultar(parametro) {
     //trocar termo por codigoR
     const veiDAO = new VeiculoDAO();
-    return await veiDAO.consultar(termo); //trocar termo por codigoR
+    return await veiDAO.consultar(parametro); //trocar termo por codigoR
   }
 }

@@ -9,7 +9,7 @@ import session from 'express-session';
 import { verificarAcesso } from './Segurança/autenticacao.js';
 import rotaReservasVeiculos from './Rotas/rotaReservas_veiculos.js';
 
-const host='0.0.0.0';
+const host='localhost';
 const porta='4000';
 
 dotenv.config()

@@ -1,8 +1,9 @@
 import { Router } from "express";
 import ReservasCCtrl from "../Controle/reservasCCtrl.js";
 
-const reCtrl = new ReservasCCtrl();
 const rotaReservasC = new Router();
+const reCtrl = new ReservasCCtrl();
+
 
 rotaReservasC
 .get('/',reCtrl.consultar)

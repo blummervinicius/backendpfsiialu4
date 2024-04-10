@@ -1,12 +1,14 @@
 import Reservas_veiculos from "../Modelo/reservas_veiculos.js";
 
 export default class Reservas_veiculosCtrl {
+  
   gravar(requisicao, resposta) {
     resposta.type("application/json");
     if (requisicao.method === "POST" && requisicao.is("application/json")) {
+
       const dados = requisicao.body;
-      const res_codigoR = dados.res_codigoR;
-      const vei_codigoV = dados.vei_codigoV;
+      const res_codigoR = dados.codigoR;
+      const vei_codigoV = dados.codigoV;
 
       if (res_codigoR && vei_codigoV) {
         const reservas_veiculos = new Reservas_veiculos(
@@ -14,18 +16,17 @@ export default class Reservas_veiculosCtrl {
           vei_codigoV
         );
 
-        reservas_veiculos
-          .gravar()
+        reservas_veiculos.gravar()
           .then(() => {
             resposta.status(200).json({
-              status: true,
-              mensagem: "Reserva vinculada ao veículo!",
+              "status": true,
+              "mensagem": "Reserva vinculada ao veículo!",
             });
           })
-          .catch((eroo) => {
+          .catch((erro) => {
             resposta.status(500).json({
-              status: false,
-              mensagem: "Erro ao vincular reserva:" + erro.message,
+              "status": false,
+              "mensagem": "Erro ao vincular reserva:" + erro.message,
             });
           });
       }
@@ -34,7 +35,7 @@ export default class Reservas_veiculosCtrl {
 
   atualizar(requisicao, resposta) {
     resposta.type("application/json");
-    if (requisicao.method === "PUT" && requisicao.is("application/json")) {
+    if ((requisicao.method === "PUT" || requisicao.method === "PATCH") && requisicao.is("application/json")) {
       const dados = requisicao.body;
       const codigoR = dados.codigoR;
       const codigoV = dados.codigoV;
@@ -44,15 +45,16 @@ export default class Reservas_veiculosCtrl {
         reservas_veiculos
           .atualizar()
           .then(() => {
-            resposta.estatus(200).json({
-              status: true,
-              mensagem: "Vinculo realizado",
+            resposta.status(200).json({
+              "status": true,
+              "mensagem": "Veículo Atualizado",
             });
           })
           .catch((erro) => {
             resposta.status(500).json({
-              status: false,
-              mensagem: "Erro ao atualizaro reserva:" + erro.message,
+              "status": false,
+              "mensagem": "Erro ao atualizar reserva:" + erro.message,
+              
             });
           });
       }
@@ -73,20 +75,20 @@ export default class Reservas_veiculosCtrl {
         .consultar(termo)
         .then((lista) => {
           resposta.json({
-            status: true,
+            "status": true,
             lista,
           });
         })
         .catch((erro) => {
           resposta.json({
-            status: false,
-            mensagem: "Não foi possível encontrar a reserva: " + erro.message,
+            "status": false,
+            "mensagem": "Não foi possível encontrar a reserva: " + erro.message,
           });
         });
     } else {
       resposta.status(400).json({
-        status: false,
-        mensagem: "Por favor, utilize o método GET para consultar reserva!",
+        "status": false,
+        "mensagem": "Por favor, utilize o método GET para consultar reserva!",
       });
     }
   }

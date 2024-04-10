@@ -24,7 +24,7 @@ CREATE TABLE veiculo (
     vei_codigoV INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     vei_modelo VARCHAR(100) NOT NULL,
     vei_ano INT NOT NULL,
-    vei_placa VARCHAR(20) NOT NULL,
+    vei_placa VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE reservas_veiculos (

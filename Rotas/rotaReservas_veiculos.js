@@ -5,11 +5,11 @@ const rotaReservasVeiculos = new Router()
 const ReservasVeiculos = new Reservas_veiculosCtrl()
 
 rotaReservasVeiculos
+.get('/',ReservasVeiculos.consultar)
+.get('/:termo',ReservasVeiculos.consultar)
+.post('/',ReservasVeiculos.gravar)
+.patch('/',ReservasVeiculos.atualizar)
+.put('/',ReservasVeiculos.atualizar)
+.delete('/',ReservasVeiculos.excluir)
 
-.post('/', ReservasVeiculos.gravar)
-.put('/', ReservasVeiculos.atualizar)
-.get('/', ReservasVeiculos.consultar)
-.get('/:termo', ReservasVeiculos.consultar)
-.delete('/', ReservasVeiculos.excluir)
-
-export default rotaReservasVeiculos
+export default rotaReservasVeiculos;

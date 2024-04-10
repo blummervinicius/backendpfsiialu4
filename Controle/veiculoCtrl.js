@@ -68,7 +68,7 @@ export default class VeiculoCtrl {
       resposta.status(400).json({
         status: false,
         mensagem:
-          "Por favor, utilize os métodos PUT ou PATCH para atualizar a reserva!",
+          "Por favor, utilize os métodos PUT ou PATCH para atualizar o veículo!",
       });
     }
   }

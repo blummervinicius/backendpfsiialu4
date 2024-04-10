@@ -17,13 +17,13 @@ export default class ClienteDAO {
   async atualizar(cliente) {
     if (cliente instanceof Cliente) {
       const sql =
-        "UPDATE cliente SET cli_nome = ?, cli_cpf = ?, cli_telefone = ? WHERE cli_codigoC = ?"; // Alteração: incluir o campo "cli_telefone" na atualização
+        "UPDATE cliente SET cli_nome = ?, cli_cpf = ?, cli_telefone = ? WHERE cli_codigoC = ?"; 
       const parametros = [
         cliente.nome,
         cliente.cpf,
         cliente.telefone,
         cliente.codigoC,
-      ]; // Alteração: adicionar o telefone aos parâmetros
+      ]; 
       const conexao = await conectar();
       await conexao.execute(sql, parametros);
       global.poolConexoes.releaseConnection(conexao);
@@ -45,7 +45,7 @@ export default class ClienteDAO {
     let parametros = [];
     if (!isNaN(parseInt(parametroConsulta))) {
       sql =
-        "SELECT cli_codigoC, cli_nome, cli_cpf, cli_telefone FROM cliente WHERE cli_codigoC = ? ORDER BY cli_nome"; // Alteração: incluir o campo "cli_telefone" na consulta
+        "SELECT cli_codigoC, cli_nome, cli_cpf, cli_telefone FROM cliente WHERE cli_codigoC = ? ORDER BY cli_nome"; // Alteração: inclui o campo "cli_telefone" na consulta
       parametros = [parametroConsulta];
     } else {
       if (!parametroConsulta) {
